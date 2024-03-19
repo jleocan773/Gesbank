@@ -6,30 +6,29 @@ class Movimientos extends Controller
     public function render($param = [])
     {
 
-        # Inicio o continúo la sesión
+        //Inicio o continúo la sesión
         session_start();
 
         //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['main']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'movimientos');
         } else {
 
-            # Comprobar si existe el mensaje
+            //Comprobar si existe el mensaje
             if (isset($_SESSION['mensaje'])) {
                 $this->view->mensaje = $_SESSION['mensaje'];
                 unset($_SESSION['mensaje']);
             }
 
-            # Creo la propiedad title de la vista
+            //Creo la propiedad title de la vista
             $this->view->title = "Tabla Movimientos";
 
-            # Creo la propiedad movimientos dentro de la vista
-            # Del modelo asignado al controlador ejecuto el método getMovimientos();
+            //Creo la propiedad movimientos dentro de la vista
+            //Del modelo asignado al controlador ejecuto el método getMovimientos();
             $this->view->movimientos = $this->model->getMovimientos();
             $this->view->render("movimientos/main/index");
         }
@@ -38,7 +37,7 @@ class Movimientos extends Controller
     //Método para generar la vista del formulario para nuevo Movimiento
     function nuevo($param = [])
     {
-        # Iniciamos o continuamos la sesión
+        //Iniciamos o continuamos la sesión
         session_start();
 
         //Comprobar si el usuario está identificado
@@ -51,10 +50,10 @@ class Movimientos extends Controller
             header('location:' . URL . 'movimientos');
         } else {
 
-            # Creamos un objeto vacío
+            //Creamos un objeto vacío
             $this->view->movimiento = new classMovimiento();
 
-            # Comprobamos si existen errores
+            //Comprobamos si existen errores
             if (isset($_SESSION['error'])) {
                 //Añadimos a la vista el mensaje de error
                 $this->view->error = $_SESSION['error'];
@@ -81,8 +80,8 @@ class Movimientos extends Controller
         }
     }
 
-    # Método create
-    # Envía los detalles para crear una nuevo movimiento
+    //Método create
+    //Envía los detalles para crear una nuevo movimiento
     function create($param = [])
     {
         //Iniciar sesión
@@ -120,7 +119,7 @@ class Movimientos extends Controller
                 $saldo
             );
 
-            # 3. Validación
+            //3. Validación
             $errores = [];
 
 
@@ -154,7 +153,7 @@ class Movimientos extends Controller
                 $errores['cantidad'] = 'Cantidad no disponible, es superior al saldo de la cuenta';
             }
 
-            # 4. Comprobar validación
+            //4. Comprobar validación
             if (!empty($errores)) {
                 //Errores de validación
                 $_SESSION['movimiento'] = serialize($movimiento);
@@ -178,7 +177,7 @@ class Movimientos extends Controller
                 //Actualizamos el saldo en el objeto movimiento
                 $movimiento->saldo = $nuevoSaldo;
 
-                # Añadimos el registro a la tabla
+                //Añadimos el registro a la tabla
                 $this->model->create($movimiento);
 
                 //Actualizamos el saldo de la cuenta
@@ -193,15 +192,15 @@ class Movimientos extends Controller
         }
     }
 
-    # Método mostrar
-    # Muestra los detalles de un movimiento en un formulario no editable
+    //Método mostrar
+    //Muestra los detalles de un movimiento en un formulario no editable
     function mostrar($param = [])
     {
 
         //Iniciar o continuar sesión
         session_start();
 
-        # id de la cuenta
+        //id de la cuenta
         $id = $param[0];
 
         //Comprobar si el usuario está identificado
@@ -214,16 +213,22 @@ class Movimientos extends Controller
             header('location:' . URL . 'movimientos');
         } else {
 
+            //Creo la propiedad title de la vista
             $this->view->title = "Formulario Mostrar Movimiento";
+
+            //Creo la propiedad movimientos dentro de la vista
             $this->view->movimiento = $this->model->getMovimiento($id);
+
+            //Creo la propiedad cuenta dentro de la vista
             $this->view->cuenta = $this->model->getCuenta($this->view->movimiento->cuenta);
 
+            //Renderizo la vista
             $this->view->render("movimientos/mostrar/index");
         }
     }
 
-    # Método ordenar
-    # Permite ordenar la tabla cuenta a partir de alguna de las columnas de la tabla
+    //Método ordenar
+    //Permite ordenar la tabla cuenta a partir de alguna de las columnas de la tabla
     function ordenar($param = [])
     {
         //Inicio o continuo sesión
@@ -239,15 +244,22 @@ class Movimientos extends Controller
             header('location:' . URL . 'movimientos');
         } else {
 
+            //Criterio de ordenamiento
             $criterio = $param[0];
+
+            //Creo la propiedad title de la vista
             $this->view->title = "Tabla Movimientos";
+
+            //Creo la propiedad movimientos dentro de la vista
             $this->view->movimientos = $this->model->order($criterio);
+
+            //Renderizo la vista
             $this->view->render("movimientos/main/index");
         }
     }
 
-    # Método buscar
-    # Permite realizar una búsqueda en la tabla cuentas a partir de una expresión
+    //Método buscar
+    //Permite realizar una búsqueda en la tabla cuentas a partir de una expresión
     function buscar($param = [])
     {
         //Inicio o continuo sesión
@@ -263,10 +275,16 @@ class Movimientos extends Controller
             header('location:' . URL . 'movimientos');
         } else {
 
-
+            //Expresión de búsqueda
             $expresion = $_GET["expresion"];
+
+            //Creo la propiedad title de la vista
             $this->view->title = "Tabla Movimientos";
+
+            //Creo la propiedad movimientos dentro de la vista
             $this->view->movimientos = $this->model->filter($expresion);
+
+            //Renderizo la vista
             $this->view->render("movimientos/main/index");
         }
     }

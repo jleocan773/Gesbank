@@ -5,13 +5,11 @@ require_once 'class/class.pdfCuentas.php';
 class Cuentas extends Controller
 {
 
-    # Método render
-    # Principal del controlador Cuentas
-    # Muestra los detalles de la tabla Cuentas
+    //Método principal. Muestra todoas las cuentas
     function render($param = [])
     {
 
-        # Inicio o continúo la sesión
+        //Inicio o continúo la sesión
         session_start();
 
         //Comprobar si el usuario está identificado
@@ -24,25 +22,27 @@ class Cuentas extends Controller
             header('location:' . URL . 'cuentas');
         } else {
 
-            # Comprobar si existe el mensaje
+            //Comprobar si existe el mensaje
             if (isset($_SESSION['mensaje'])) {
                 $this->view->mensaje = $_SESSION['mensaje'];
                 unset($_SESSION['mensaje']);
             }
 
-            # Creo la propiedad title de la vista
+            //Creo la propiedad title de la vista
             $this->view->title = "Tabla Cuentas";
 
-            # Creo la propiedad clientes dentro de la vista
-            # Del modelo asignado al controlador ejecuto el método get();
+            //Creo la propiedad clientes dentro de la vista
+            //Del modelo asignado al controlador ejecuto el método get();
             $this->view->cuentas = $this->model->get();
+
+            //Cargamos la vista
             $this->view->render("cuentas/main/index");
         }
     }
 
     function nuevo($param = [])
     {
-        # Iniciamos o continuamos la sesión
+        //Iniciamos o continuamos la sesión
         session_start();
 
         //Comprobar si el usuario está identificado
@@ -55,10 +55,10 @@ class Cuentas extends Controller
             header('location:' . URL . 'cuentas');
         } else {
 
-            # Creamos un objeto vacío
+            //Creamos un objeto vacío
             $this->view->cuenta = new classCuenta();
 
-            # Comprobamos si existen errores
+            //Comprobamos si existen errores
             if (isset($_SESSION['error'])) {
                 //Añadimos a la vista el mensaje de error
                 $this->view->error = $_SESSION['error'];
@@ -66,7 +66,7 @@ class Cuentas extends Controller
                 //Autorellenamos el formulario
                 $this->view->cuenta = unserialize($_SESSION['cuenta']);
 
-                // Recuperamos el array con los errores
+                //Recuperamos el array con los errores
                 $this->view->errores = $_SESSION['errores'];
 
                 //Una vez usadas las variables de sesión, las liberamos
@@ -85,8 +85,8 @@ class Cuentas extends Controller
         }
     }
 
-    # Método create
-    # Envía los detalles para crear una nueva cuenta
+    //Método create
+    //Envía los detalles para crear una nueva cuenta
     function create($param = [])
     {
         //Iniciar sesión
@@ -124,7 +124,7 @@ class Cuentas extends Controller
                 null
             );
 
-            # 3. Validación
+            //3. Validación
             $errores = [];
 
             //Número de la cuenta. Campo obligatorio, tamaño de 20 dígitos númericos, valor único (clave segundaria)
@@ -165,7 +165,7 @@ class Cuentas extends Controller
                 $errores['saldo'] = 'El campo saldo debe ser numérico';
             }
 
-            # 4. Comprobar validación
+            //4. Comprobar validación
             if (!empty($errores)) {
                 //Errores de validación
                 $_SESSION['cuenta'] = serialize($cuenta);
@@ -175,7 +175,7 @@ class Cuentas extends Controller
                 //Redireccionamos de nuevo al formulario
                 header('location:' . URL . 'cuentas/nuevo/index');
             } else {
-                # Añadimos el registro a la tabla
+                //Añadimos el registro a la tabla
                 $this->model->create($cuenta);
 
                 //Crearemos un mensaje, indicando que se ha realizado dicha acción
@@ -187,12 +187,12 @@ class Cuentas extends Controller
         }
     }
 
-    # Método delete
-    # Permite eliminar una cuenta de la tabla
+    //Método delete
+    //Permite eliminar una cuenta de la tabla
     function delete($param = [])
     {
 
-        # Inicio o continúo la sesión
+        //Inicio o continúo la sesión
         session_start();
 
         //Comprobar si el usuario está identificado
@@ -218,9 +218,9 @@ class Cuentas extends Controller
         }
     }
 
-    # Método editar
-    # Muestra los detalles de una cuenta en un formulario de edición
-    # Sólo se podrá modificar el titular o cliente de la cuenta
+    //Método editar
+    //Muestra los detalles de una cuenta en un formulario de edición
+    //Sólo se podrá modificar el titular o cliente de la cuenta
     public function editar($param = [])
     {
 
@@ -255,14 +255,14 @@ class Cuentas extends Controller
             //Comprobar si el formulario viene de una validación
             if (isset($_SESSION['error'])) {
 
-                # Mensaje de error
+                //Mensaje de error
                 $this->view->error = $_SESSION['error'];
 
 
-                # Autorrellenar el formulario con los detalles de la cuenta
+                //Autorrellenar el formulario con los detalles de la cuenta
                 $this->view->cuenta = unserialize($_SESSION['cuenta']);
 
-                # Recupero array de errores específicos
+                //Recupero array de errores específicos
                 $this->view->errores = $_SESSION['errores'];
 
                 unset($_SESSION['error']);
@@ -275,8 +275,8 @@ class Cuentas extends Controller
         }
     }
 
-    # Método update.
-    # Actualiza los detalles de un cliente a partir de los datos del formulario de edición
+    //Método update.
+    //Actualiza los detalles de un cliente a partir de los datos del formulario de edición
     public function update($param = [])
     {
 
@@ -321,7 +321,7 @@ class Cuentas extends Controller
             //Obtengo el objeto del elemento original
             $objOriginal = $this->model->getCuenta($id);
 
-            # 3. Validación
+            //3. Validación
             $errores = [];
 
             //Número de la cuenta. Campo obligatorio, tamaño de 20 dígitos númericos, valor único (clave segundaria)
@@ -391,15 +391,15 @@ class Cuentas extends Controller
         }
     }
 
-    # Método mostrar
-    # Muestra los detalles de una cuenta en un formulario no editable
+    //Método mostrar
+    //Muestra los detalles de una cuenta en un formulario no editable
     function mostrar($param = [])
     {
 
         //Iniciar o continuar sesión
         session_start();
 
-        # id de la cuenta
+        //id de la cuenta
         $id = $param[0];
 
         //Comprobar si el usuario está identificado
@@ -412,16 +412,22 @@ class Cuentas extends Controller
             header('location:' . URL . 'cuentas');
         } else {
 
+            //Creo la propiedad title de la vista
             $this->view->title = "Formulario Cuenta Mostar";
+
+            //Creo la propiedad cuenta dentro de la vista
             $this->view->cuenta = $this->model->getCuenta($id);
+
+            //Creo la propiedad cliente dentro de la vista
             $this->view->cliente = $this->model->getCliente($this->view->cuenta->id_cliente);
 
+            //Renderizo la vista
             $this->view->render("cuentas/mostrar/index");
         }
     }
 
-    # Método ordenar
-    # Permite ordenar la tabla cuenta a partir de alguna de las columnas de la tabla
+    //Método ordenar
+    //Permite ordenar la tabla cuenta a partir de alguna de las columnas de la tabla
     function ordenar($param = [])
     {
         //Inicio o continuo sesión
@@ -437,15 +443,22 @@ class Cuentas extends Controller
             header('location:' . URL . 'cuentas');
         } else {
 
+            //Criterio de ordenamiento
             $criterio = $param[0];
+
+            //Creo la propiedad title de la vista
             $this->view->title = "Tabla Cuentas";
+
+            //Creo la propiedad cuentas dentro de la vista
             $this->view->cuentas = $this->model->order($criterio);
+
+            //Renderizo la vista
             $this->view->render("cuentas/main/index");
         }
     }
 
-    # Método buscar
-    # Permite realizar una búsqueda en la tabla cuentas a partir de una expresión
+    //Método buscar
+    //Permite realizar una búsqueda en la tabla cuentas a partir de una expresión
     function buscar($param = [])
     {
         //Inicio o continuo sesión
@@ -462,9 +475,16 @@ class Cuentas extends Controller
         } else {
 
 
+            //Expresión de búsqueda
             $expresion = $_GET["expresion"];
+
+            //Creo la propiedad title de la vista
             $this->view->title = "Tabla Cuentas";
+
+            //Creo la propiedad cuentas dentro de la vista
             $this->view->cuentas = $this->model->filter($expresion);
+
+            //Renderizo la vista
             $this->view->render("cuentas/main/index");
         }
     }
@@ -472,8 +492,10 @@ class Cuentas extends Controller
     // Método de Exportación
     public function exportar()
     {
+        //Inicio o continuo la sesión
         session_start();
 
+        //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario no autentificado";
             header("location:" . URL . "login");
@@ -482,14 +504,17 @@ class Cuentas extends Controller
             header('location:' . URL . 'cuentas');
         }
 
+        //Obtener todas las cuentas para exportar
         $cuentas = $this->model->getCSV()->fetchAll(PDO::FETCH_ASSOC);
 
+        //Escribir los encabezados
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="cuentas.csv"');
 
+        //Crear el archivo CSV
         $ficheroExport = fopen('php://output', 'w');
 
-        // Iterar sobre las cuentas y escribir los datos en el archivo CSV
+        //Iterar sobre las cuentas y escribir los datos en el archivo CSV
         foreach ($cuentas as $cuenta) {
 
             $fecha = date("Y-m-d H:i:s");
@@ -508,17 +533,21 @@ class Cuentas extends Controller
                 'update_at' => $cuenta['update_at']
             );
 
+            //Escribir los datos en el archivo CSV
             fputcsv($ficheroExport, $cuenta, ';');
         }
 
+        //Cierre del archivo CSV
         fclose($ficheroExport);
     }
 
 
     public function importar()
     {
+        //Iniciar o continuar la sesión
         session_start();
 
+        //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario no autentificado";
             header("location:" . URL . "login");
@@ -529,11 +558,14 @@ class Cuentas extends Controller
             exit();
         }
 
+        //Si el formulario ha sido enviado, procesamos los datos
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
             $file = $_FILES["archivo_csv"]["tmp_name"];
 
+            //Abrir el archivo CSV
             $handle = fopen($file, "r");
 
+            //Leer el archivo CSV linea por linea
             if ($handle !== FALSE) {
                 while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
                     $num_cuenta = $data[0];
@@ -562,7 +594,10 @@ class Cuentas extends Controller
                     }
                 }
 
+                //Cierre del archivo CSV
                 fclose($handle);
+
+                //Generar mensasje y redireccionar al listado de cuentas
                 $_SESSION['mensaje'] = "Importación realizada correctamente";
                 header('location:' . URL . 'cuentas');
                 exit();
@@ -580,8 +615,10 @@ class Cuentas extends Controller
 
     function pdf()
     {
+        //Iniciar o continuar la sesión
         session_start();
 
+        //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario no autentificado";
             header("location:" . URL . "login");
@@ -605,15 +642,15 @@ class Cuentas extends Controller
         $pdf->Output();
     }
 
-    # Método listarMovimientos
-    # Muestra los movimientos de una cuenta en una vista
+    //Método listarMovimientos
+    //Muestra los movimientos de una cuenta en una vista
     function listarMovimientos($param = [])
     {
 
         //Iniciar o continuar sesión
         session_start();
 
-        # id de la cuenta
+        //id de la cuenta
         $id = $param[0];
 
         //Comprobar si el usuario está identificado
@@ -626,9 +663,13 @@ class Cuentas extends Controller
             header('location:' . URL . 'cuentas');
         } else {
 
+            //Creo la propiedad title de la vista
             $this->view->title = "Formulario Cuenta Listar Movimientos";
+
+            //Creo la propiedad movimientos dentro de la vista
             $this->view->movimientos = $this->model->getMovientosCuenta($id);
 
+            //Renderizo la vista
             $this->view->render("cuentas/listaMovimientos/index");
         }
     }

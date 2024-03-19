@@ -6,40 +6,41 @@ require_once 'class/class.pdfClientes.php';
 class Clientes extends Controller
 {
 
-    # Método principal. Muestra todos los clientes
+    //Método principal. Muestra todos los clientes
     public function render($param = [])
     {
 
-        # Inicio o continúo la sesión
+        //Inicio o continúo la sesión
         session_start();
 
         //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['main']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
         } else {
 
-            # Comprobar si existe el mensaje
+            //Comprobar si existe el mensaje 
             if (isset($_SESSION['mensaje'])) {
                 $this->view->mensaje = $_SESSION['mensaje'];
                 unset($_SESSION['mensaje']);
             }
 
-            # Creo la propiedad title de la vista
+            //Creo la propiedad title de la vista
             $this->view->title = "Tabla Clientes";
 
-            # Creo la propiedad clientes dentro de la vista
-            # Del modelo asignado al controlador ejecuto el método get();
+            //Del modelo asignado al controlador ejecuto el método get();
+            //Creo la propiedad clientes dentro de la vista
             $this->view->clientes = $this->model->get();
+
+            //Cargamos la vista
             $this->view->render("clientes/main/index");
         }
     }
 
-    # Método nuevo. Muestra formulario añadir cliente
+    //Método nuevo. Muestra formulario añadir cliente
     public function nuevo($param = [])
     {
 
@@ -49,7 +50,6 @@ class Clientes extends Controller
         //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['nuevo']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
@@ -71,6 +71,7 @@ class Clientes extends Controller
                 //Recupero array de errores específicos
                 $this->view->errores = $_SESSION['errores'];
 
+                //Elimino las variables de sesión de errores y cliente
                 unset($_SESSION['error']);
                 unset($_SESSION['errores']);
                 unset($_SESSION['cliente']);
@@ -84,8 +85,8 @@ class Clientes extends Controller
         }
     }
 
-    # Método create. 
-    # Permite añadir nuevo cliente a partir de los detalles del formuario
+    //Método create. 
+    //Permite añadir nuevo cliente a partir de los detalles del formuario
     public function create($param = [])
     {
 
@@ -95,7 +96,6 @@ class Clientes extends Controller
         //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['nuevo']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
@@ -206,11 +206,11 @@ class Clientes extends Controller
     }
 
 
-    # Método delete. 
-    # Permite la eliminación de un cliente y todas sus cuentas asociadas
+    //Método delete. 
+    //Permite la eliminación de un cliente y todas sus cuentas asociadas
     public function delete($param = [])
     {
-        # Inicio o continúo la sesión
+        //Inicio o continúo la sesión
         session_start();
 
         //Comprobar si el usuario está identificado
@@ -238,13 +238,14 @@ class Clientes extends Controller
             //Generar mensaje
             $_SESSION['mensaje'] = 'Cliente y cuentas asociadas borrados correctamente';
 
+            //Redirigimos al main de clientes
             header("Location:" . URL . "clientes");
         }
     }
 
 
-    # Método editar. 
-    # Muestra un formulario que permita editar los detalles de un cliente
+    //Método editar. 
+    //Muestra un formulario que permita editar los detalles de un cliente
     public function editar($param = [])
     {
 
@@ -254,7 +255,6 @@ class Clientes extends Controller
         //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['editar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
@@ -276,14 +276,14 @@ class Clientes extends Controller
             //Comprobar si el formulario viene de una validación
             if (isset($_SESSION['error'])) {
 
-                # Mensaje de error
+                //Mensaje de error
                 $this->view->error = $_SESSION['error'];
 
 
-                # Autorrellenar el formulario con los detalles del cliente
+                //Autorrellenar el formulario con los detalles del cliente
                 $this->view->cliente = unserialize($_SESSION['cliente']);
 
-                # Recupero array de errores específicos
+                //Recupero array de errores específicos
                 $this->view->errores = $_SESSION['errores'];
 
                 unset($_SESSION['error']);
@@ -296,8 +296,8 @@ class Clientes extends Controller
         }
     }
 
-    # Método update.
-    # Actualiza los detalles de un cliente a partir de los datos del formulario de edición
+    //Método update.
+    //Actualiza los detalles de un cliente a partir de los datos del formulario de edición
     public function update($param = [])
     {
 
@@ -307,7 +307,6 @@ class Clientes extends Controller
         //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['editar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
@@ -436,8 +435,8 @@ class Clientes extends Controller
         }
     }
 
-    # Método mostrar
-    # Muestra en un formulario de solo lectura los detalles de un cliente
+    //Método mostrar
+    //Muestra en un formulario de solo lectura los detalles de un cliente
     public function mostrar($param = [])
     {
 
@@ -447,22 +446,28 @@ class Clientes extends Controller
         //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['mostrar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
         } else {
 
+            //Obtenemos el id del elemento que vamos a mostrar
             $id = $param[0];
+
+            //Creo la propiedad title de la vista
             $this->view->title = "Formulario Cliente Mostar";
+
+            //Creo la propiedad cliente dentro de la vista
             $this->view->cliente = $this->model->getCliente($id);
+
+            //Renderizo la vista
             $this->view->render("clientes/mostrar/index");
         }
     }
 
-    # Método ordenar
-    # Permite ordenar la tabla de clientes por cualquiera de las columnas de la tabla
+    //Método ordenar
+    //Permite ordenar la tabla de clientes por cualquiera de las columnas de la tabla
     public function ordenar($param = [])
     {
         //Inicio o continuo sesión
@@ -471,24 +476,28 @@ class Clientes extends Controller
         //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['ordenar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
         } else {
 
-
+            //Obtenemos el criterio
             $criterio = $param[0];
+
+            //Creo la propiedad title de la vista
             $this->view->title = "Tabla Clientes";
+
+            //Creo la propiedad clientes dentro de la vista
             $this->view->clientes = $this->model->order($criterio);
+
+            //Cargamos la vista
             $this->view->render("clientes/main/index");
         }
     }
 
-    # Método buscar
-    # Permite buscar los registros de clientes que cumplan con el patrón especificado en la expresión
-    # de búsqueda
+    //Método buscar
+    //Permite buscar los registros de clientes que cumplan con el patrón especificado en la expresión de búsqueda
     public function buscar($param = [])
     {
         //Inicio o continuo sesión
@@ -497,42 +506,55 @@ class Clientes extends Controller
         //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['buscar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
         } else {
 
+            //Obtenemos la expresión de búsqueda
             $expresion = $_GET["expresion"];
+
+            //Creo la propiedad title de la vista
             $this->view->title = "Tabla Clientes";
+
+            //Creo la propiedad clientes dentro de la vista
             $this->view->clientes = $this->model->filter($expresion);
+
+            //Cargamos la vista
             $this->view->render("clientes/main/index");
         }
     }
 
     //Método de Exportación
+    //Permite exportar la tabla de clientes a un fichero CSV
     public function exportar()
     {
 
+        //Iniciar o continuar sesión
         session_start();
 
+        //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario no autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['exportar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
         }
 
+        //Obtenemos los clientes con getCSV
         $clientes = $this->model->getCSV()->fetchAll(PDO::FETCH_ASSOC);
 
+        //Iniciamos la escritura del fichero CSV
+        //Escribimos los encabezados
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="clientes.csv"');
 
+        //Creamos el fichero CSV
         $ficheroExport = fopen('php://output', 'w');
 
+        //Vamos escribiendo los datos del fichero CSV, cliente por cliente
         foreach ($clientes as $cliente) {
             $fecha = date("Y-m-d H:i:s");
 
@@ -550,17 +572,21 @@ class Clientes extends Controller
                 'update_at' => $cliente['update_at']
             );
 
+            //Escribimos el cliente en el fichero CSV
             fputcsv($ficheroExport, $cliente, ';');
         }
 
+        //Cerramos el fichero CSV
         fclose($ficheroExport);
     }
 
 
     public function importar()
     {
+        //Iniciar o continuar sesión
         session_start();
 
+        //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario no autentificado";
             header("location:" . URL . "login");
@@ -571,11 +597,14 @@ class Clientes extends Controller
             exit();
         }
 
+        //Si el formulario ha sido enviado, procesamos los datos
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
             $file = $_FILES["archivo_csv"]["tmp_name"];
 
+            //Abrimos el fichero CSV
             $handle = fopen($file, "r");
 
+            //Leemos el fichero CSV línea por línea
             if ($handle !== FALSE) {
                 while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
                     $apellidos = $data[0];
@@ -604,7 +633,10 @@ class Clientes extends Controller
                     }
                 }
 
+                //Cerramos el fichero CSV
                 fclose($handle);
+
+                //Creamos el mensaje y redirigimos a la lista de clientes
                 $_SESSION['mensaje'] = "Importación realizada correctamente";
                 header('location:' . URL . 'clientes');
                 exit();
@@ -622,8 +654,10 @@ class Clientes extends Controller
 
     function pdf()
     {
+        //Iniciar o continuar sesión
         session_start();
 
+        //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario no autentificado";
             header("location:" . URL . "login");
