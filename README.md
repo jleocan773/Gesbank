@@ -60,7 +60,7 @@ Hemos usado PHPMailer para enviar correos electrónicos en ciertos momentos, por
 
 Para enviar los correos hemos uado el SMTP de Google, por ello necesitamos la credenciales de este servicio, en el archivo **PHPMailer>src>auth.php** es dónde declaramos las constantes que contendrán esta información, de querer tener esta funcionalidad, hay que cambiar esos datos por datos válidos.
 
-## Autenticación
+### Autenticación
 
 Para poder acceder a la mayoría de funcionalidades del proyecto hace falta autenticarse, para ello en la barra de navegación tenemos la opción **Login | Register**, **Register** acabará creando un registro en la tabla **users** dentro de la base de datos **Gesbank**.
 
