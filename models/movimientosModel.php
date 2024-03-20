@@ -333,4 +333,30 @@ class movimientosModel extends Model
             exit();
         }
     }
+
+    public function getCSV()
+    {
+        try {
+            $sql = "SELECT * from movimientos ORDER BY id";
+
+            //Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            //Preparamos la consulta SQL para su ejecución
+            $pdost = $conexion->prepare($sql);
+
+            //Establecemos tipo fetch
+            $pdost->setFetchMode(PDO::FETCH_OBJ);
+
+            //Ejecutamos 
+            $pdost->execute();
+
+            //Retornamos los datos
+            return $pdost;
+        } catch (PDOException $e) {
+            require_once("template/partials/errorDB.php");
+            exit();
+        }
+    }
 }
+    

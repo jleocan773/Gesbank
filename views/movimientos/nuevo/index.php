@@ -33,7 +33,7 @@
                 <div class="mb-3">
                     <label for="cuenta" class="form-label">Cuenta del Movimiento</label>
                     <select class="form-select <?= (isset($this->errores['cuenta'])) ? 'is-invalid' : null ?>" name="cuenta" id="cuenta">
-                        <option selected disabled>Seleccione un cliente</option>
+                        <option selected disabled>Seleccione una cuenta</option>
                         <?php foreach ($this->cuentas as  $cuenta) : ?>
                             <option value="<?= $cuenta->id ?>"  <?= ($cuenta->id == $this->movimiento->id_cuenta) ? 'selected' : null ?>>
                                 <?= $cuenta->num_cuenta ?>

@@ -6,6 +6,7 @@ require_once 'class/class.pdfClientes.php';
 class Clientes extends Controller
 {
 
+    //Método render
     //Método principal. Muestra todos los clientes
     public function render($param = [])
     {
@@ -40,7 +41,8 @@ class Clientes extends Controller
         }
     }
 
-    //Método nuevo. Muestra formulario añadir cliente
+    //Método nuevo. 
+    //Muestra formulario añadir cliente
     public function nuevo($param = [])
     {
 
@@ -581,6 +583,8 @@ class Clientes extends Controller
     }
 
 
+    //Método importar
+    //Importa datos a partir de un archivo .CSV
     public function importar()
     {
         //Iniciar o continuar sesión
@@ -652,6 +656,8 @@ class Clientes extends Controller
         }
     }
 
+    //Método pdf
+    //Genera un pdf con todos los clientes
     function pdf()
     {
         //Iniciar o continuar sesión

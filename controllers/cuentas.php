@@ -5,7 +5,8 @@ require_once 'class/class.pdfCuentas.php';
 class Cuentas extends Controller
 {
 
-    //Método principal. Muestra todoas las cuentas
+    //Método render
+    //Método principal. Muestra todas las cuentas
     function render($param = [])
     {
 
@@ -40,6 +41,8 @@ class Cuentas extends Controller
         }
     }
 
+    //Método nuevo
+    //Muestra el formulario para crear una nueva cuenta
     function nuevo($param = [])
     {
         //Iniciamos o continuamos la sesión
@@ -220,7 +223,7 @@ class Cuentas extends Controller
 
     //Método editar
     //Muestra los detalles de una cuenta en un formulario de edición
-    //Sólo se podrá modificar el titular o cliente de la cuenta
+    //No se podrán editar todos los campos
     public function editar($param = [])
     {
 
@@ -489,7 +492,8 @@ class Cuentas extends Controller
         }
     }
 
-    // Método de Exportación
+    //Método exportar
+    //Exporta los datos a un archivo .CSV
     public function exportar()
     {
         //Inicio o continuo la sesión
@@ -542,6 +546,8 @@ class Cuentas extends Controller
     }
 
 
+    //Método importar
+    //Importa datos a partir de un archivo .CSV
     public function importar()
     {
         //Iniciar o continuar la sesión
@@ -613,6 +619,8 @@ class Cuentas extends Controller
         }
     }
 
+    //Método pdf
+    //Genera un pdf con todas las cuentas
     function pdf()
     {
         //Iniciar o continuar la sesión

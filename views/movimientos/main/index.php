@@ -22,6 +22,9 @@
         <!-- Menu principal -->
         <?php require_once "views/movimientos/partials/menu.php" ?>
 
+        <!-- Modal -->
+        <?php require "views/movimientos/partials/modal.php" ?>
+
         <!-- tabla movimientos -->
         <table class="table">
             <thead>

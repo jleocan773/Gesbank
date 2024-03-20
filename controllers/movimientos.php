@@ -1,7 +1,11 @@
 <?php
 
+require_once 'class/class.pdfMovimientos.php';
+
+
 class Movimientos extends Controller
 {
+    //Método render
     //Método para generar la vista principal
     public function render($param = [])
     {
@@ -34,6 +38,7 @@ class Movimientos extends Controller
         }
     }
 
+    //Método nuevo
     //Método para generar la vista del formulario para nuevo Movimiento
     function nuevo($param = [])
     {
@@ -287,5 +292,156 @@ class Movimientos extends Controller
             //Renderizo la vista
             $this->view->render("movimientos/main/index");
         }
+    }
+
+    //Método exportar
+    //Exporta los datos a un archivo .CSV
+    public function exportar()
+    {
+        //Inicio o continuo la sesión
+        session_start();
+
+        //Comprobar si el usuario está identificado
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['exportar']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'movimientos');
+        }
+
+        //Obtener todas los movimientos para exportar
+        $movimientos = $this->model->getCSV()->fetchAll(PDO::FETCH_ASSOC);
+
+        //Escribir los encabezados
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="movimientos.csv"');
+
+        //Crear el archivo CSV
+        $ficheroExport = fopen('php://output', 'w');
+
+        //Iterar sobre los movimientos y escribir los datos en el archivo CSV
+        foreach ($movimientos as $movimiento) {
+
+            $fecha = date("Y-m-d H:i:s");
+
+            $movimiento['create_at'] = $fecha;
+            $movimiento['update_at'] = $fecha;
+
+            $movimiento = array(
+                'id_cuenta' => $movimiento['id_cuenta'],
+                'fecha_hora' => $movimiento['fecha_hora'],
+                'concepto' => $movimiento['concepto'],
+                'tipo' => $movimiento['tipo'],
+                'cantidad' => $movimiento['cantidad'],
+                'saldo' => $movimiento['saldo'],
+                'create_at' => $movimiento['create_at'],
+                'update_at' => $movimiento['update_at']
+            );
+
+            //Escribir los datos en el archivo CSV
+            fputcsv($ficheroExport, $movimiento, ';');
+        }
+
+        //Cierre del archivo CSV
+        fclose($ficheroExport);
+    }
+
+    //Método importar
+    //Importa datos a partir de un archivo .CSV
+    public function importar()
+    {
+        //Iniciar o continuar la sesión
+        session_start();
+
+        //Comprobar si el usuario está identificado
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+            exit();
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['importar']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'movimientos');
+            exit();
+        }
+
+        //Si el formulario ha sido enviado, procesamos los datos
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
+            $file = $_FILES["archivo_csv"]["tmp_name"];
+
+            //Abrir el archivo CSV
+            $handle = fopen($file, "r");
+
+            //Leer el archivo CSV linea por linea
+            if ($handle !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                    $id_cuenta = $data[0];
+                    $fecha_hora = $data[1];
+                    $concepto = $data[2];
+                    $tipo = $data[3];
+                    $cantidad = $data[4];
+                    $saldo = $data[5];
+
+                    // Si no existe, crear una nueva cuenta
+                    $movimiento = new classMovimiento();
+                    $movimiento->id_cuenta = $id_cuenta;
+                    $movimiento->fecha_hora = $fecha_hora;
+                    $movimiento->concepto = $concepto;
+                    $movimiento->tipo = $tipo;
+                    $movimiento->cantidad = $cantidad;
+                    $movimiento->saldo = $saldo;
+
+                    //Usamos create para meter la movimiento en la base de datos
+                    $this->model->create($movimiento);
+                }
+
+                //Cierre del archivo CSV
+                fclose($handle);
+
+                //Generar mensasje y redireccionar al listado de movimientos
+                $_SESSION['mensaje'] = "Importación realizada correctamente";
+                header('location:' . URL . 'movimientos');
+                exit();
+            } else {
+                $_SESSION['error'] = "Error con el archivo CSV";
+                header('location:' . URL . 'movimientos');
+                exit();
+            }
+        } else {
+            $_SESSION['error'] = "Seleccione un archivo CSV";
+            header('location:' . URL . 'movimientos');
+            exit();
+        }
+    }
+
+    //Método pdf
+    //Genera un pdf con todas las cuentas
+    function pdf()
+    {
+        //Iniciar o continuar la sesión
+        session_start();
+
+        //Comprobar si el usuario está identificado
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+            exit();
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['pdf']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'movimientos');
+            exit();
+        }
+
+        //Obtenemos los movimientos con get
+        $movimientos = $this->model->getMovimientos();
+
+        //Instanciamos la clase pdfCuentas
+        $pdf = new pdfMovimientos();
+
+        //Escribimos en el PDF
+        $pdf->contenido($movimientos);
+
+        // Salida del PDF
+        $pdf->Output();
     }
 }

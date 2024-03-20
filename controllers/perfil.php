@@ -113,7 +113,7 @@ class Perfil extends Controller
             }
         }
 
-        // email
+        //Email
         if (strcmp($user->email, $email) !== 0) {
             if (empty($email)) {
                 $errores['email'] = "Email es un campo obligatorio";
@@ -146,7 +146,7 @@ class Perfil extends Controller
             $this->model->update($user);
 
             try {
-                // Definimos el asunto y el mensaje*
+                //Definimos el asunto y el mensaje
                 $asuntoMail = "Cambio de información de tu Perfil";
                 $mensajeMail =
                     "Has cambiado la información de tu perfil recientemente: <br><br>"
@@ -265,7 +265,7 @@ class Perfil extends Controller
             $this->model->updatePass($user);
 
             try {
-                // Configurar destinatario, remitente, asunto y mensaje
+                //Configurar destinatario, remitente, asunto y mensaje
                 $asuntoMail = "Cambio de contraseña de tu Perfil";
                 $mensajeMail =
                     "Has cambiado la contraseña de tu perfil recientemente: <br><br>"
@@ -301,10 +301,10 @@ class Perfil extends Controller
         } else {
 
             try {
-                // Configurar PHPMailer
+                //Configurar PHPMailer
                 $infoUsuario = $this->model->getUserId($_SESSION['id']);
 
-                // Configurar destinatario, remitente, asunto y mensaje
+                //Configurar destinatario, remitente, asunto y mensaje
                 $destinatario = $infoUsuario->email;
                 $remitente = USUARIO;
                 $asuntoMail = "Eliminación de tu Perfil";
@@ -316,7 +316,7 @@ class Perfil extends Controller
                 //Enviar correo electrónico con el método enviarMail
                 $this->enviarMail($infoUsuario->email, $asuntoMail, $mensajeMail);
             } catch (Exception $e) {
-                // Manejar excepciones
+                //Manejar excepciones
                 $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
             }
 
@@ -335,7 +335,7 @@ class Perfil extends Controller
     private function enviarMail($destinatario, $asunto, $mensaje)
     {
         try {
-            // Configurar PHPMailer
+            //Configurar PHPMailer
             $mail = new PHPMailer(true);
             $mail->CharSet = "UTF-8";
             $mail->Encoding = "quoted-printable";
@@ -349,7 +349,7 @@ class Perfil extends Controller
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            // Configurar remitente y destinatario
+            //Configurar remitente y destinatario
             $remitente = USUARIO;
 
             $mail->setFrom($remitente, "Nombre de tu sitio web");
@@ -360,10 +360,10 @@ class Perfil extends Controller
             $mail->Subject = $asunto;
             $mail->Body = $mensaje;
 
-            // Enviar correo electrónico
+            //Enviar correo electrónico
             $mail->send();
         } catch (Exception $e) {
-            // Manejar excepciones
+            //Manejar excepciones
             $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
         }
     }

@@ -32,7 +32,7 @@
                         <li><a class="dropdown-item" href="<?= URL ?>cuentas/ordenar/4">Fecha</a></li>
                         <li><a class="dropdown-item" href="<?= URL ?>cuentas/ordenar/5">Fecha Ult. Mov.</a></li>
                         <li><a class="dropdown-item" href="<?= URL ?>cuentas/ordenar/6">Nº Movimientos</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/ordenar/7">saldo</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/ordenar/7">Saldo</a></li>
                     </ul>
                 </li>
 

@@ -496,7 +496,6 @@ class cuentasModel extends Model
             //Retornamos los datos
             return $pdost;
         } catch (PDOException $e) {
-
             include_once('template/partials/errorDB.php');
             exit();
         }
