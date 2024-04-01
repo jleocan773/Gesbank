@@ -27,19 +27,19 @@
             <!-- Nombre -->
             <div class="mb-3">
                 <label for="" class="form-label">Nombre</label>
-                <input type="text" class="form-control" value="<?= $this->usuario->name ?>" readonly>
+                <input type="text" class="form-control" value="<?= $this->usuario->name ?>" disabled>
             </div>
 
             <!-- Email -->
             <div class="mb-3">
                 <label for="" class="form-label">Email</label>
-                <input type="email" class="form-control" value="<?= $this->usuario->email ?>" readonly>
+                <input type="email" class="form-control" value="<?= $this->usuario->email ?>" disabled>
             </div>
 
             <!-- Roles -->
             <div class="mb-3">
                 <label for="" class="form-label">Rol</label>
-                <input type="text" class="form-control" value="<?= $this->rol->name ?>" readonly>
+                <input type="text" class="form-control" value="<?= $this->rol->name ?>" disabled>
             </div>
 
             <!-- Botón de volver atrás -->

@@ -27,7 +27,7 @@ class classCliente
         $dni = null,
         $email = null,
         $create_at = null,
-        $update_at = null,
+        $update_at = null
 
 
     ) {

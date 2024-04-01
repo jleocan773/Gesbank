@@ -107,12 +107,12 @@ class Clientes extends Controller
             //1. Seguridad. Saneamos los datos del formulario
 
             //Si se introduce un campo vacío, se le otorga "nulo"
-            $apellidos = filter_var($_POST['apellidos'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $nombre = filter_var($_POST['nombre'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $telefono = filter_var($_POST['telefono'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $ciudad = filter_var($_POST['ciudad'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $dni = filter_var($_POST['dni'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $email = filter_var($_POST['email'] ??= '', FILTER_SANITIZE_EMAIL);
+            $apellidos = isset($_POST['apellidos']) ? filter_var($_POST['apellidos'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $nombre = isset($_POST['nombre']) ? filter_var($_POST['nombre'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $telefono = isset($_POST['telefono']) ? filter_var($_POST['telefono'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $ciudad = isset($_POST['ciudad']) ? filter_var($_POST['ciudad'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $dni = isset($_POST['dni']) ? filter_var($_POST['dni'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '';
 
 
             //2. Creamos el cliente con los datos saneados
@@ -318,12 +318,12 @@ class Clientes extends Controller
             //1. Seguridad. Saneamos los datos del formulario
 
             //Si se introduce un campo vacío, se le otorga "nulo"
-            $apellidos = filter_var($_POST['apellidos'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $nombre = filter_var($_POST['nombre'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $telefono = filter_var($_POST['telefono'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $ciudad = filter_var($_POST['ciudad'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $dni = filter_var($_POST['dni'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $email = filter_var($_POST['email'] ??= '', FILTER_SANITIZE_EMAIL);
+            $apellidos = isset($_POST['apellidos']) ? filter_var($_POST['apellidos'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $nombre = isset($_POST['nombre']) ? filter_var($_POST['nombre'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $telefono = isset($_POST['telefono']) ? filter_var($_POST['telefono'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $ciudad = isset($_POST['ciudad']) ? filter_var($_POST['ciudad'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $dni = isset($_POST['dni']) ? filter_var($_POST['dni'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '';
 
 
             //2. Creamos el cliente con los datos saneados

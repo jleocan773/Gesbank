@@ -93,8 +93,8 @@ class Perfil extends Controller
         }
 
         # Saneamos el formulario
-        $name = filter_var($_POST['name'] ??= null, FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = filter_var($_POST['email'] ??= null, FILTER_SANITIZE_EMAIL);
+        $name = isset($_POST['name']) ? filter_var($_POST['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : null;
 
         # Obtenemos objeto con los detalles del usuario
         $user = $this->model->getUserId($_SESSION['id']);
@@ -219,10 +219,10 @@ class Perfil extends Controller
         }
 
         # Saneamos el formulario
-        $password_form = filter_var($_POST['password_form'] ??= null, FILTER_SANITIZE_SPECIAL_CHARS);
-        $password = filter_var($_POST['password'] ??= null, FILTER_SANITIZE_SPECIAL_CHARS);
-        $password_confirm = filter_var($_POST['password_confirm'] ??= null, FILTER_SANITIZE_SPECIAL_CHARS);
-
+        $password_form = isset($_POST['password_form']) ? filter_var($_POST['password_form'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $password_confirm = isset($_POST['password_confirm']) ? filter_var($_POST['password_confirm'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        
         # Obtenemos objeto con los detalles del usuario
         $user = $this->model->getUserId($_SESSION['id']);
         $infoUsuario = $this->model->getUserId($_SESSION['id']);

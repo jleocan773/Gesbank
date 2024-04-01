@@ -114,11 +114,11 @@ class Usuarios extends Controller
             //1. Seguridad. Saneamos los datos del formulario
 
             //Si se introduce un campo vacío, se le otorga "nulo"
-            $nombre = filter_var($_POST['nombre'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $email = filter_var($_POST['email'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $roles = filter_var($_POST['roles'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $contraseña = filter_var($_POST['contraseña'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $confirmarContraseña = filter_var($_POST['confirmarContraseña'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
+            $nombre = isset($_POST['nombre']) ? filter_var($_POST['nombre'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $roles = isset($_POST['roles']) ? filter_var($_POST['roles'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $contraseña = isset($_POST['contraseña']) ? filter_var($_POST['contraseña'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $confirmarContraseña = isset($_POST['confirmarContraseña']) ? filter_var($_POST['confirmarContraseña'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
 
             //2. Creamos el cliente con los datos saneados
             //Cargamos los datos del formulario

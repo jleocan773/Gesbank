@@ -16,7 +16,7 @@ class classContacto
         $nombre = null,
         $email = null,
         $asunto = null,
-        $textoMensaje = null,
+        $textoMensaje = null
 
 
     ) {

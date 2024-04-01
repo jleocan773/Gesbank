@@ -27,7 +27,7 @@ class classMovimiento
         $cantidad = null,
         $saldo = null,
         $create_at = null,
-        $update_at = null,
+        $update_at = null
 
 
     ) {

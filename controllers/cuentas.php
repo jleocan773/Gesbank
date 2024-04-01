@@ -108,10 +108,11 @@ class Cuentas extends Controller
             //1. Seguridad. Saneamos los datos del formulario
 
             //Si se introduce un campo vacío, se le otorga "nulo"
-            $num_cuenta = filter_var($_POST['num_cuenta'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $id_cliente = filter_var($_POST['id_cliente'] ??= '', FILTER_SANITIZE_NUMBER_INT);
-            $fecha_alta = filter_var($_POST['fecha_alta'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $saldo = filter_var($_POST['saldo'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
+            $num_cuenta = isset($_POST['num_cuenta']) ? filter_var($_POST['num_cuenta'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $id_cliente = isset($_POST['id_cliente']) ? filter_var($_POST['id_cliente'], FILTER_SANITIZE_NUMBER_INT) : '';
+            $fecha_alta = isset($_POST['fecha_alta']) ? filter_var($_POST['fecha_alta'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $saldo = isset($_POST['saldo']) ? filter_var($_POST['saldo'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+
 
             //2. Creamos el cliente con los datos saneados
             //Cargamos los datos del formulario
@@ -299,10 +300,11 @@ class Cuentas extends Controller
             //1. Seguridad. Saneamos los datos del formulario
 
             //Si se introduce un campo vacío, se le otorga "nulo"
-            $num_cuenta = filter_var($_POST['num_cuenta'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $id_cliente = filter_var($_POST['id_cliente'] ??= '', FILTER_SANITIZE_NUMBER_INT);
-            $fecha_alta = filter_var($_POST['fecha_alta'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $saldo = filter_var($_POST['saldo'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
+            $num_cuenta = isset($_POST['num_cuenta']) ? filter_var($_POST['num_cuenta'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $id_cliente = isset($_POST['id_cliente']) ? filter_var($_POST['id_cliente'], FILTER_SANITIZE_NUMBER_INT) : '';
+            $fecha_alta = isset($_POST['fecha_alta']) ? filter_var($_POST['fecha_alta'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $saldo = isset($_POST['saldo']) ? filter_var($_POST['saldo'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+
 
             //2. Creamos el cliente con los datos saneados
             //Cargamos los datos del formulario

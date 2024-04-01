@@ -105,12 +105,12 @@ class Movimientos extends Controller
             //1. Seguridad. Saneamos los datos del formulario
 
             //Si se introduce un campo vacío, se le otorga "nulo"
-            $cuenta = filter_var($_POST['cuenta'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $fecha_hora = filter_var($_POST['fecha_hora'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $concepto = filter_var($_POST['concepto'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $tipo = filter_var($_POST['tipo'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $cantidad = filter_var($_POST['cantidad'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
-            $saldo = $this->model->getSaldoCuentaPorID($cuenta);
+            $cuenta = isset($_POST['cuenta']) ? filter_var($_POST['cuenta'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $fecha_hora = isset($_POST['fecha_hora']) ? filter_var($_POST['fecha_hora'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $concepto = isset($_POST['concepto']) ? filter_var($_POST['concepto'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $tipo = isset($_POST['tipo']) ? filter_var($_POST['tipo'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $cantidad = isset($_POST['cantidad']) ? filter_var($_POST['cantidad'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+            $saldo = isset($_POST['cuenta']) ? $this->model->getSaldoCuentaPorID($cuenta) : '';
 
             //2. Creamos el cliente con los datos saneados
             //Cargamos los datos del formulario

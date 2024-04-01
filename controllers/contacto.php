@@ -88,10 +88,10 @@ class Contacto extends Controller
         //1. Seguridad. Saneamos los datos del formulario
 
         //Si se introduce un campo vacío, se le otorga "nulo"
-        $nombre = filter_var($_POST['nombre'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $asunto = filter_var($_POST['asunto'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $textoMensaje = filter_var($_POST['textoMensaje'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $nombre = isset($_POST['nombre']) ? filter_var($_POST['nombre'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+        $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+        $asunto = isset($_POST['asunto']) ? filter_var($_POST['asunto'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+        $textoMensaje = isset($_POST['textoMensaje']) ? filter_var($_POST['textoMensaje'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
 
         //Creamos un contacto con los datos saneados
         $contacto = new classContacto($nombre, $email, $asunto, $textoMensaje);

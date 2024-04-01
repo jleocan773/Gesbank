@@ -27,7 +27,7 @@ class classCuenta
         $num_movtos = null,
         $saldo = null,
         $create_at = null,
-        $update_at = null,
+        $update_at = null
 
 
     ) {
